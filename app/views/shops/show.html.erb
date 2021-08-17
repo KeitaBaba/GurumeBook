@@ -1,0 +1,143 @@
+<section class="section has-background-black">
+  <div class="container">
+      <div class="columns is-centered">
+      <div class="column is-7">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                <p class="title is-4"><%= @shop.name %></p>
+                <p class="shop-evaluation" data-score="<%=@shop.evaluation %>"></p>
+              </div>
+            </div>
+            <div class="content">
+                  <div id="map"></div>
+                </div>
+            <div class="content">
+              <% @shop.images.each do |image| %>
+                <%=image_tag image.to_s%>
+              <% end %>
+              <% if Like.find_by(user_id:current_user.id, shop_id:@shop.id)%>
+                <p><%= link_to 'いいね済み', shop_like_path(@shop), method: :delete,class:"like"%></p>
+              <% else %>
+                <p><%= link_to 'いいね', shop_likes_path(@shop), method: :review,class:"like"%></p>
+              <% end %>
+            </div>
+
+            <div class="content">
+              <table class="table is-narrow">
+                <tr>
+                  <th>感想</th>
+                </tr>
+                <tr>
+                  <td><%= simple_format @shop.body %></td>
+                </tr>
+              </table>
+              <% if @shop.user.id == current_user.id %>
+                <%= link_to "編集画面へ", edit_shop_path(@shop), class: "button is-success" %>
+                <%= link_to "削除", shop_path(@shop), method: :delete,class: "button is-black"%>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-4">
+          <article class="panel is-link">
+            <p class="panel-heading">
+              By <%= @shop.user.name %>
+            </p>
+            
+            <%= link_to user_path(@shop.user), class: "panel-block" do %>
+              <span class="panel-icon">
+                <i class="fas fa-user" aria-hidden="true"></i>
+              </span>
+              <%= @shop.user.name %> さんのページへ
+            <% end %>
+          </article>
+
+          <h2>コメント一覧</h2>
+            <% @shop.reviews.each do |review| %>
+              <div>
+                <%= review.content %>
+                <hr>
+              </div>
+              <% if review.user == current_user %>
+                <div>
+                    <%= link_to 'delete', [@shop, review], method: :delete %>
+                </div>
+              <% end %>
+            <% end %>
+
+            <%= form_with model: [@shop, @review], local: true do |f| %>
+              <div class="field">
+                <%= f.text_field :content, class: 'input' %>
+              </div>
+                <%= f.submit class: 'button is-primary' %>
+            <% end %>
+       </div>
+      </div>
+  </div>
+</section>
+
+<p id="notice"><%= notice %></p>
+
+
+
+<%= link_to 'Back', shops_path %>
+
+
+
+
+<script type="text/javascript">
+    function initMap() {
+
+        var test ={lat: <%= @shop.latitude %>, lng: <%= @shop.longitude %>};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: test
+        });
+        var transitLayer = new google.maps.TransitLayer();
+        transitLayer.setMap(map);
+
+        var contentString = '住所：<%= @shop.address %>';
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+        var marker = new google.maps.Marker({
+            position:test,
+            map: map,
+            title: contentString
+        });
+
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
+    }
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAafClNH0jxMHeNSabrL4onyejsurfeRm8&callback=initMap">
+</script>
+
+<style type="text/css">
+  #map { height: 400px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:left;
+    width: 80%;}
+</style>
+
+
+<script>
+  $('.shop-evaluation').raty({
+    readOnly: true,
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    path: '/assets/'
+  });
+</script>
+
+

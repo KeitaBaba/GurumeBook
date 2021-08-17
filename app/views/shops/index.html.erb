@@ -1,0 +1,43 @@
+<section class="section has-background-black">
+        <div class="container has-text-centered">
+            <div class="columns is-multiline" style="padding: 2rem">
+            <% @shops.each do |shop| %>
+                <div class="column is-3 ">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                              <% shop.images.each do |image| %>
+                                <%= link_to shop_path(shop) do %>
+                                  <%=image_tag image.to_s%>
+                                <% end %>
+                              <% end %>
+                            </figure>
+                        </div>
+
+                        <div class="card-content">
+                          <div class="card-content">
+                            <div class="content">
+                                <h2><%= shop.name %></h2>
+                                <p class="shop-evaluation" data-score="<%=shop.evaluation %>"></p>  
+                                <%=link_to "詳細", shop_path(shop),class: "button is-black"%>
+                            </div>
+                        　</div>
+                      　</div>
+                    </div>
+                </div>
+            <% end %>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+<script>
+  $('.shop-evaluation').raty({
+    readOnly: true,
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    path: '/assets/'
+  });
+</script>
