@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
   def index
     @users=User.all
   end
@@ -6,10 +7,14 @@ class UsersController < ApplicationController
   def show
     @user=User.find_by(id:params[:id])
     @shops=Shop.where(user_id:@user.id)
+    @likes=Like.where(user_id:@user.id)
   end
 
   def edit
     @user=User.find_by(id:params[:id])
+    if @user != current_user
+      redirect_to user_path(current_user), alert: "不正なアクセスです。"
+    end
   end
 
   def update

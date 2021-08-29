@@ -6,7 +6,8 @@
       <%= csp_meta_tag %>
 
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha256-UzFD2WYH2U1dQpKDjjZK72VtPeWP50NoJjd26rnAdUI=" crossorigin="anonymous" />
       <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
       <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     </head>
@@ -27,7 +28,7 @@
       <nav class="navbar has-background-black">
           <div class="navbar-brand">
             <%= link_to root_path, class: "navbar-item has-text-white" do %>
-            <i class="fas fa-tshirt fa-2x"></i><h1 class="title has-text-white" style="font-family: cursive;">GurumeBook</h1>
+            <h1 class="title has-text-white" style="font-family: cursive;">GurumeBook</h1>
             <% end %>
               
             <%if user_signed_in?%> 

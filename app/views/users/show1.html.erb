@@ -1,0 +1,27 @@
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        マイページ
+      </h1>
+    </div>
+  </div>
+</section>
+
+
+
+<div class="columns is-centered">
+  <div class="column is-4 has-text-centered">
+   <% if @user.image? %>
+        　      <%= image_tag @user.image.url, class: "user-icon" %>
+              <% else %>
+                <%= image_tag "default.png", alt: "user-icon", size: "200", class: "user-icon" %>
+              <% end %>
+      <p><%=@user.name%></p>
+      <% if @user.id == current_user.id %>
+      <p><%=@user.email%></p>
+      <%= link_to '編集', edit_user_path(@user),class: "link_edit"%>
+      <%end%>
+  </div>
+</div>
+

@@ -6,7 +6,7 @@
           <div class="card-content">
             <div class="media">
               <div class="media-content">
-                <p class="title is-4"><%= @shop.name %></p>
+                <p class="shopname is-size-4"><%= @shop.name %></p>
                 <p class="shop-evaluation" data-score="<%=@shop.evaluation %>"></p>
               </div>
             </div>
@@ -18,9 +18,16 @@
                 <%=image_tag image.to_s%>
               <% end %>
               <% if Like.find_by(user_id:current_user.id, shop_id:@shop.id)%>
-                <p><%= link_to 'いいね済み', shop_like_path(@shop), method: :delete,class:"like"%></p>
+                <p><%= link_to shop_like_path(@shop), method: :delete, class:"like" do%></p>
+                  <i class="fas fa-heart"></i>
+                <% end %>
+                 <%= @shop.likes.count %>
+                
               <% else %>
-                <p><%= link_to 'いいね', shop_likes_path(@shop), method: :review,class:"like"%></p>
+                <p><%= link_to shop_likes_path(@shop), method: :review,class:"like" do%></p>
+                  <i class="fas fa-heart"></i>
+                <% end %>
+                <%= @shop.likes.count %>
               <% end %>
             </div>
 
@@ -56,9 +63,9 @@
             <% end %>
           </article>
 
-          <h2>コメント一覧</h2>
+          <h2 class="has-text-white">コメント一覧</h2>
             <% @shop.reviews.each do |review| %>
-              <div>
+              <div class="has-text-white"> 
                 <%= review.content %>
                 <hr>
               </div>
@@ -73,7 +80,7 @@
               <div class="field">
                 <%= f.text_field :content, class: 'input' %>
               </div>
-                <%= f.submit class: 'button is-primary' %>
+                <%= f.submit class: 'button is-dark' %>
             <% end %>
        </div>
       </div>
