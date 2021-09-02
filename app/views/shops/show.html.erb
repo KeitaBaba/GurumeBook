@@ -71,7 +71,7 @@
               </div>
               <% if review.user == current_user %>
                 <div>
-                    <%= link_to 'delete', [@shop, review], method: :delete %>
+                    <%= link_to '削除', [@shop, review], method: :delete %>
                 </div>
               <% end %>
             <% end %>
@@ -85,13 +85,10 @@
        </div>
       </div>
   </div>
+  <%= link_to 'Back', shops_path, class:"has-text-white" %>
 </section>
 
-<p id="notice"><%= notice %></p>
 
-
-
-<%= link_to 'Back', shops_path %>
 
 
 
